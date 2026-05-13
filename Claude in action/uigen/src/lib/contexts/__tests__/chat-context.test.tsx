@@ -81,8 +81,8 @@ describe("ChatContext", () => {
 
   test("initializes with project ID and messages", () => {
     const initialMessages = [
-      { id: "1", role: "user" as const, content: "Hello" },
-      { id: "2", role: "assistant" as const, content: "Hi there!" },
+      { id: "1", role: "user" as const, parts: [{ type: "text" as const, text: "Hello" }] },
+      { id: "2", role: "assistant" as const, parts: [{ type: "text" as const, text: "Hi there!" }] },
     ];
 
     (useAIChat as any).mockReturnValue({
@@ -98,7 +98,7 @@ describe("ChatContext", () => {
 
     expect(useAIChat).toHaveBeenCalledWith({
       api: "/api/chat",
-      initialMessages,
+      initialUIMessages: initialMessages,
       body: {
         files: mockFileSystem.serialize(),
         projectId: "test-project",
@@ -110,7 +110,7 @@ describe("ChatContext", () => {
   });
 
   test("tracks anonymous work when no project ID", async () => {
-    const mockMessages = [{ id: "1", role: "user", content: "Hello" }];
+    const mockMessages = [{ id: "1", role: "user", parts: [{ type: "text", text: "Hello" }] }];
 
     (useAIChat as any).mockReturnValue({
       ...mockUseAIChat,
@@ -132,7 +132,7 @@ describe("ChatContext", () => {
   });
 
   test("does not track anonymous work when project ID exists", async () => {
-    const mockMessages = [{ id: "1", role: "user", content: "Hello" }];
+    const mockMessages = [{ id: "1", role: "user", parts: [{ type: "text", text: "Hello" }] }];
 
     (useAIChat as any).mockReturnValue({
       ...mockUseAIChat,

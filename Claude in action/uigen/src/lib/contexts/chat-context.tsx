@@ -7,17 +7,17 @@ import {
   useEffect,
 } from "react";
 import { useChat as useAIChat } from "@ai-sdk/react";
-import { Message } from "ai";
+import { UIMessage } from "ai";
 import { useFileSystem } from "./file-system-context";
 import { setHasAnonWork } from "@/lib/anon-work-tracker";
 
 interface ChatContextProps {
   projectId?: string;
-  initialMessages?: Message[];
+  initialMessages?: UIMessage[];
 }
 
 interface ChatContextType {
-  messages: Message[];
+  messages: UIMessage[];
   input: string;
   handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -41,7 +41,7 @@ export function ChatProvider({
     status,
   } = useAIChat({
     api: "/api/chat",
-    initialMessages,
+    initialUIMessages: initialMessages,
     body: {
       files: fileSystem.serialize(),
       projectId,
