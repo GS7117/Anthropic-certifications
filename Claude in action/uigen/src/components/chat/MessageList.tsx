@@ -29,7 +29,7 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
       <div className="space-y-6 max-w-4xl mx-auto w-full">
         {messages.map((message) => (
           <div
-            key={message.id || message.content}
+            key={message.id}
             className={cn(
               "flex gap-4",
               message.role === "user" ? "justify-end" : "justify-start"
@@ -74,14 +74,13 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
                               <span className="text-sm text-neutral-700">{part.reasoning}</span>
                             </div>
                           );
-                        case "tool-invocation":
-                          const tool = part.toolInvocation;
+                        case "dynamic-tool":
                           return (
                             <ToolCallBadge
                               key={partIndex}
-                              toolName={tool.toolName}
-                              args={tool.args ?? {}}
-                              state={tool.state}
+                              toolName={part.toolName}
+                              args={(part.input as any) ?? {}}
+                              state={part.state}
                             />
                           );
                         case "source":

@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     providerOptions: {
       anthropic: { cacheControl: { type: "ephemeral" } },
     },
-    messages: convertToModelMessages(messages),
+    messages: await convertToModelMessages(messages),
     maxTokens: 10_000,
     maxSteps: isMockProvider ? 4 : 40,
     onError: (err: any) => {
